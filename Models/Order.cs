@@ -5,14 +5,9 @@ namespace strovollio_api.Models
 {
     public class Order
     {
-        public Order(ICollection<MenuItem> menuItems, User user, Merchant merchant)
+        public Order()
         {
             this.OrderID = Guid.NewGuid();
-            this.MenuItems = menuItems;
-            this.UserID = user.UserID;
-            this.User = user;
-            this.MerchantID = merchant.MerchantID;
-            this.Merchant = merchant;
         }
 
         public Guid OrderID { get; set; }
