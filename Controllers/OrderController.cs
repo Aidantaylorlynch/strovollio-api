@@ -44,7 +44,7 @@ namespace strovollio_api
             };
             await _context.Orders.AddAsync(orderToCreate);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetOrderByID), new { id = orderToCreate.OrderID }, orderToCreate);
+            return Ok();
         }
     }
 }
