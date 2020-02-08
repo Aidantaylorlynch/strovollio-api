@@ -8,6 +8,7 @@ namespace strovollio_api.Models
         public Order()
         {
             this.OrderID = Guid.NewGuid();
+            this.OrderDate = DateTime.Now;
         }
 
         public Guid OrderID { get; set; }
@@ -19,3 +20,8 @@ namespace strovollio_api.Models
         public Merchant Merchant { get; set; }
     }
 }
+
+// need to associate order to merchant
+// datetime needs to be init
+// route needs to be merchant
+// need users id 
