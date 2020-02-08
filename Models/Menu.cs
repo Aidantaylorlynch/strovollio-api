@@ -12,5 +12,7 @@ namespace strovollio_api.Models
 
         public Guid MenuID { get; set; }
         public ICollection<MenuItem> MenuItems { get; set; }
+        public Merchant Merchant { get; set; }
+        public Guid MerchantID { get; set; }
     }
 }

@@ -40,5 +40,24 @@ namespace strovollio_api
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetMerchantByID), new { id = merchant.MerchantID }, merchant);
         }
+
+        [HttpGet]
+        [Route("{id}/menu")]
+        public async Task<IActionResult> GetMenuByMerchantID(Guid ID)
+        {
+            var menuByMerchantID = await _context.Menus.Include(includeMenuItems => includeMenuItems.MenuItems).FirstOrDefaultAsync(menu => menu.MerchantID == ID);
+            return Ok(menuByMerchantID);
+        }
+
+        [HttpPost]
+        [Route("{id}/menu")]
+        public async Task<IActionResult> CreateMenuByMerchantID(Guid ID, Menu menu)
+        {
+            var menuByMerchantID = await _context.Menus.FirstOrDefaultAsync(menu => menu.MerchantID == ID);
+            menu.MerchantID = ID;
+            await _context.Menus.AddAsync(menu);
+            await _context.SaveChangesAsync();
+            return Ok(menuByMerchantID);
+        }
     }
 }
