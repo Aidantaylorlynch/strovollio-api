@@ -16,6 +16,6 @@ namespace strovollio_api.Models
         public string Email { get; set; }
         public string Name { get; set; }
         public ICollection<Order> Orders { get; set; }
-        public Menu Menu { get; set; }
+        public ICollection<MenuItem> MenuItems { get; set; }
     }
 }

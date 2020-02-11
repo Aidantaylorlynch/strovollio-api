@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using strovollio_api.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using strovollio_api.ViewModels;
 
 namespace strovollio_api
 {
@@ -42,22 +45,25 @@ namespace strovollio_api
         }
 
         [HttpGet]
-        [Route("{id}/menu")]
-        public async Task<IActionResult> GetMenuByMerchantID(Guid ID)
+        [Route("{id}/menuitems")]
+        public async Task<IActionResult> GetMenuItemsByMerchantID(Guid ID)
         {
-            var menuByMerchantID = await _context.Menus.Include(includeMenuItems => includeMenuItems.MenuItems).FirstOrDefaultAsync(menu => menu.MerchantID == ID);
-            return Ok(menuByMerchantID);
+            var menuItemsMerchantID = await _context.MenuItems.Where(menuItem => menuItem.MerchantID == ID).ToListAsync();
+            var menuItems = new MenuItemsViewModel();
+            menuItems.MenuItems = menuItemsMerchantID;
+            return Ok(menuItems);
         }
 
         [HttpPost]
-        [Route("{id}/menu")]
-        public async Task<IActionResult> CreateMenuByMerchantID(Guid ID, Menu menu)
+        [Route("{id}/menuitems")]
+        public async Task<IActionResult> CreateMenuByMerchantID(Guid ID,  MenuItemsViewModel menuItemsViewModel)
         {
-            var menuByMerchantID = await _context.Menus.FirstOrDefaultAsync(menu => menu.MerchantID == ID);
-            menu.MerchantID = ID;
-            await _context.Menus.AddAsync(menu);
+            var menuItems = menuItemsViewModel.MenuItems.Select(menuItem => new MenuItem(
+                menuItem.Name, menuItem.Description, menuItem.Price, menuItem.MerchantID
+            )).ToList();
+            _context.MenuItems.AddRange(menuItems);
             await _context.SaveChangesAsync();
-            return Ok(menuByMerchantID);
+            return Ok();
         }
     }
 }
