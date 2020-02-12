@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using strovollio_api.Models;
 using System;
+using System.Linq;
+using strovollio_api.ViewModels;
+using System.Collections.Generic;
 
 namespace strovollio_api
 {
@@ -20,7 +23,7 @@ namespace strovollio_api
         [Route("")]
         public async Task<IActionResult> GetOrders()
         {
-            var orders = await _context.Orders.ToListAsync();
+            var orders = await _context.Orders.Include(includeMenuItems => includeMenuItems.MenuItems).ToListAsync();
             return Ok(orders);
         }
 
@@ -34,14 +37,15 @@ namespace strovollio_api
 
         [HttpPost]
         [Route("{id}")]
-        public async Task<IActionResult> CreateOrderByMerchantID(Guid ID, Order order)
+        public async Task<IActionResult> CreateOrderByMerchantID(Guid ID, OrderViewModel orderViewModel)
         {
             var merchantByID = await _context.Merchants.FirstOrDefaultAsync( merchant => merchant.MerchantID == ID);
             var orderToCreate = new Order {
                 MerchantID = merchantByID.MerchantID,
-                Merchant = merchantByID,
-                MenuItems = order.MenuItems
+                Merchant = merchantByID
             };
+            orderToCreate.MenuItems = new List<MenuItem>();
+            orderViewModel.MenuItemIDs.ToList().ForEach(async item => orderToCreate.MenuItems.Add(await _context.MenuItems.FirstOrDefaultAsync(menuItem => menuItem.MenuItemID == item)));
             await _context.Orders.AddAsync(orderToCreate);
             await _context.SaveChangesAsync();
             return Ok();
