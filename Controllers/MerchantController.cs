@@ -65,5 +65,13 @@ namespace strovollio_api
             await _context.SaveChangesAsync();
             return Ok();
         }
+
+        [HttpGet]
+        [Route("{id}/orders")]
+        public async Task<IActionResult> GetOrdersByMerchantID(Guid ID)
+        {
+            var ordersByMerchantID = await _context.Orders.Where(order => order.MerchantID == ID).ToListAsync();
+            return Ok(ordersByMerchantID);
+        }
     }
 }
