@@ -18,6 +18,7 @@ namespace strovollio_api.Models
         public User User { get; set; }
         public Guid MerchantID { get; set; }
         public Merchant Merchant { get; set; }
+        public ICollection<LineItem> LineItems { get; set; }
     }
 }
 

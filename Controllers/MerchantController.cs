@@ -70,7 +70,7 @@ namespace strovollio_api
         [Route("{id}/orders")]
         public async Task<IActionResult> GetOrdersByMerchantID(Guid ID)
         {
-            var ordersByMerchantID = await _context.Orders.Include(includeMenuItems => includeMenuItems.MenuItems).Where(order => order.MerchantID == ID).ToListAsync();
+            var ordersByMerchantID = await _context.Orders.Include(includeLineItems => includeLineItems.LineItems).Where(order => order.MerchantID == ID).ToListAsync();
             return Ok(ordersByMerchantID);
         }
     }

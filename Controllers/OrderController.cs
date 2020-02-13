@@ -23,7 +23,7 @@ namespace strovollio_api
         [Route("")]
         public async Task<IActionResult> GetOrders()
         {
-            var orders = await _context.Orders.Include(includeMenuItems => includeMenuItems.MenuItems).ToListAsync();
+            var orders = await _context.Orders.ToListAsync();
             return Ok(orders);
         }
 
@@ -31,7 +31,7 @@ namespace strovollio_api
         [Route("{id}")]
         public async Task<IActionResult> GetOrderByID(Guid ID)
         {
-            var orderByID = await _context.Orders.Include(includeMenuItems => includeMenuItems.MenuItems).FirstOrDefaultAsync( order => order.OrderID == ID);
+            var orderByID = await _context.Orders.FirstOrDefaultAsync( order => order.OrderID == ID);
             return Ok(orderByID);
         }
 
@@ -45,7 +45,9 @@ namespace strovollio_api
                 Merchant = merchantByID
             };
             orderToCreate.MenuItems = new List<MenuItem>();
+            orderToCreate.LineItems = new List<LineItem>();
             orderViewModel.MenuItemIDs.ToList().ForEach(async item => orderToCreate.MenuItems.Add(await _context.MenuItems.FirstOrDefaultAsync(menuItem => menuItem.MenuItemID == item)));
+            orderViewModel.MenuItemIDs.ToList().ForEach(menuItemID => orderToCreate.LineItems.Add(new LineItem(orderToCreate.OrderID, menuItemID)));
             await _context.Orders.AddAsync(orderToCreate);
             await _context.SaveChangesAsync();
             return Ok();
