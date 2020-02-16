@@ -17,5 +17,6 @@ namespace strovollio_api.Models
         public string Name { get; set; }
         public ICollection<Order> Orders { get; set; }
         public ICollection<MenuItem> MenuItems { get; set; }
+        public string TestMigration { get; set; }
     }
 }

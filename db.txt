@@ -7,3 +7,4 @@ https://www.microsoft.com/en-au/sql-server/sql-server-downloads
 - follow this guide to setup migrations https://docs.microsoft.com/en-us/ef/core/get-started/?tabs=netcore-cli
 - using this list of database providers, make sure to install the correct one: https://docs.microsoft.com/en-us/ef/core/providers/index?tabs=dotnet-core-cli using the dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 - dont worry about specifying a verion it will pick the right one
+- to setup migrations to run on startup, simply inject the datbase context into the constructor of Startup.cs configurte method
