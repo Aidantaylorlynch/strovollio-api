@@ -29,7 +29,7 @@ namespace strovollio_api
         {
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore).AddJsonOptions(options => options.JsonSerializerOptions.PropertyNameCaseInsensitive = true);
             services.AddDbContext<StrovollioDbContext>(options =>
-            options.UseInMemoryDatabase("Strovollio"));
+            options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=Strovollio;User Id=admin;Password=yoloswaggins;Trusted_Connection=True;"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

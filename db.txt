@@ -1,0 +1,9 @@
+https://www.microsoft.com/en-au/sql-server/sql-server-downloads
+- On the bottom of the page, download one of the free specialised editions of sql sever. I chose express because its licensed for dev and production environments.
+- sql server 2017 express edition
+- copy connection string from installer Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;
+- login using mssql and create new db for project
+- open security database and create login with user and pass, making sure to select all permissions;
+- follow this guide to setup migrations https://docs.microsoft.com/en-us/ef/core/get-started/?tabs=netcore-cli
+- using this list of database providers, make sure to install the correct one: https://docs.microsoft.com/en-us/ef/core/providers/index?tabs=dotnet-core-cli using the dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+- dont worry about specifying a verion it will pick the right one
