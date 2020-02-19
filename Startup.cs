@@ -40,7 +40,7 @@ namespace strovollio_api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(b => b.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
+            app.UseCors(builder => builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod());
 
             app.UseHttpsRedirection();
 
