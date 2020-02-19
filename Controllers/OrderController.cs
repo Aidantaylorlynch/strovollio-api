@@ -46,7 +46,6 @@ namespace strovollio_api
             };
             orderToCreate.MenuItems = new List<MenuItem>();
             orderToCreate.LineItems = new List<LineItem>();
-            orderViewModel.MenuItemIDs.ToList().ForEach(async item => orderToCreate.MenuItems.Add(await _context.MenuItems.FirstOrDefaultAsync(menuItem => menuItem.MenuItemID == item)));
             orderViewModel.MenuItemIDs.ToList().ForEach(menuItemID => orderToCreate.LineItems.Add(new LineItem(orderToCreate.OrderID, menuItemID)));
             await _context.Orders.AddAsync(orderToCreate);
             await _context.SaveChangesAsync();
